@@ -31,10 +31,10 @@ npm install
 npm run dev
 ```
 
-### 2. `Part_2_Product_UX_Review.md`
+### 2. [Part 2: Product & UX Review](./Part_2_Product_UX_Review.md)
 This document contains a heuristic evaluation of standard surplus food marketplace interfaces (like the Good Again MVP), identifying the Top 10 UX issues. I prioritized issues that directly affect conversions (e.g., lack of distance context, unclear pickup windows, and dietary filters).
 
-### 3. `Part_3_System_Design.md`
+### 3. [Part 3: System Design](./Part_3_System_Design.md)
 This document outlines the architectural decisions for Customer Registration, Payment Flow, Notifications, and Merchant Inventory. I focused on robust solutions suitable for an early-stage startup (like Firebase Auth, Midtrans, FCM, and PostgreSQL for strict inventory concurrency control).
 
 ## Notes
