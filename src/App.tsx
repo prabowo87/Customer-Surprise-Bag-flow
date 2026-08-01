@@ -59,10 +59,10 @@ function App() {
             ←
           </button>
         ) : (
-          <div></div> // Spacer
+          <div aria-hidden="true"></div>
         )}
         <h1>Good Again</h1>
-        <div></div> // Spacer
+        <div aria-hidden="true"></div>
       </header>
 
       {/* Main Content Area */}
