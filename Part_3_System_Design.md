@@ -3,10 +3,10 @@
 Here is my proposed system architecture for the core backend flows. For an early-stage startup, my main philosophy here is: use managed services to move fast (like Firebase/Supabase), but don't compromise on data integrity where money or inventory is involved.
 
 ### 1. Customer Registration & Authentication
-I'd highly recommend using **Firebase Auth** or **Supabase Auth**. There's no need to build custom auth from scratch at this stage.
-- **Flow:** We let users sign up via Email or Google/Apple Sign-In (Apple is mandatory for the iOS App Store anyway).
-- **Security:** The auth provider gives us a JWT. We store it securely on the device and pass it in the `Authorization` header for all backend API calls.
-- **Data Sync:** Whenever a new user signs up, a webhook triggers and creates a corresponding profile row in our main database.
+To maintain full control over the user lifecycle and data security, Authentication is centralized and handled directly by our **Backend API** rather than exposing third-party auth directly to the client.
+- **Flow:** The client sends login credentials (or OAuth tokens from Google/Apple) directly to our backend via `POST /auth/login` or `POST /auth/register`.
+- **Security:** The backend verifies the credentials, issues a secure JWT, and returns it to the client. The client stores this JWT securely on the device and passes it in the `Authorization` header for subsequent requests.
+- **Data Integrity:** Because the backend natively handles the auth flow, user profiles are created instantly in the PostgreSQL database within the exact same transaction, eliminating the need for complex sync webhooks.
 
 ### 2. Payment Flow
 For the Indonesian market, **Midtrans** or **Xendit** are usually the best bets because they support GoPay, OVO, QRIS, and Virtual Accounts out of the box.
