@@ -1,5 +1,7 @@
 # Good Again – System Design
 
+**👉 [View the System Flow Diagram on Miro](https://miro.com/app/board/uXjVH2egoKc=/?share_link_id=167792340124)**
+
 Here is my proposed system architecture for the core backend flows. For an early-stage startup, my main philosophy here is: use managed services to move fast (like Firebase/Supabase), but don't compromise on data integrity where money or inventory is involved.
 
 ### 1. Customer Registration & Authentication
