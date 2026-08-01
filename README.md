@@ -7,6 +7,9 @@ Thank you for the opportunity to complete this final challenge! Below is a break
 
 ## Folder Contents
 
+### Live Demo
+**👉 [View Live Application](https://customer-surprise-bag-flow.vercel.app)**
+
 ### 1. `src/` (Source Code)
 This contains the React/Vite application for the Customer Surprise Bag flow.
 - **Tech Stack:** React, Vite, standard CSS.
