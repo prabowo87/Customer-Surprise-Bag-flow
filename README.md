@@ -5,7 +5,7 @@ Hi team! Thank you for the opportunity to work on this challenge. I had a lot of
 Here is a quick breakdown of my submission:
 
 ## Live Demo
-**👉 [Check out the live app here](https://customer-surprise-bag-flow.vercel.app)**
+** [Check out the live app here](https://customer-surprise-bag-flow.vercel.app)**
 
 ## 1. `src/` (Source Code)
 This folder contains the React/Vite application for the Customer Surprise Bag flow.
