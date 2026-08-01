@@ -1,46 +1,43 @@
 # Good Again – Product & UX Review
-**Final Challenge - Part 2**
 
-This review is based on a heuristic evaluation of standard surplus food marketplace interfaces, focusing on merchant discovery, the surprise bag purchase flow, and post-purchase clarity.
+Hey! After playing around with the MVP and thinking about typical user flows for surplus food apps, I've put together a list of 10 UX and usability areas we could improve. I've ranked them loosely by priority, focusing first on things that might block a user from actually making a purchase.
 
-## Top 10 UX & Usability Issues
+### 1. Distance & Location Context is Missing (High Priority)
+**The problem:** When I'm looking for food to pick up, the first thing I want to know is "how far is it?" If I don't see the distance on the merchant card, I probably won't click it.
+**The fix:** We should definitely add distance (e.g., "1.2 km away") right on the merchant cards and default to sorting the feed by distance.
 
-### 1. Lack of Distance & Location Context (High Priority)
-* **Issue**: Users often do not know how far away a merchant is from their current location on the listing page. Since surplus food pickup is local and time-sensitive, location context is critical.
-* **Suggestion**: Add distance (e.g., "1.2 km away") on the merchant card, sort the feed primarily by distance, and introduce a Map View toggle.
+### 2. What exactly is in a "Surprise Bag"? (High Priority)
+**The problem:** For first-time users, buying a blind bag can feel a bit risky. If they don't know what to expect, they might hesitate.
+**The fix:** A short subtitle like "Assorted pastries from today's batch" or a little tooltip explaining the concept would go a long way in building trust.
 
-### 2. Unclear "Surprise Bag" Expectations (High Priority)
-* **Issue**: First-time users may feel anxious about purchasing a "Surprise Bag" without knowing what they might get, leading to drop-offs.
-* **Suggestion**: Add a brief descriptive subtitle under the bag (e.g., "Assorted pastries and breads from today's batch") and a prominent tooltip explaining the surprise bag concept to build trust.
+### 3. We need Dietary Preference Filters (High Priority)
+**The problem:** Users with dietary restrictions (Halal, Vegan, Vegetarian) can't really buy a surprise bag right now if they can't filter the merchants safely.
+**The fix:** Let's add some quick-tap filter pills on the home page for "Halal", "Vegetarian", etc.
 
-### 3. Missing Dietary Preference Filters (High Priority)
-* **Issue**: Users with dietary restrictions (Halal, Vegan, Vegetarian) cannot safely purchase a surprise bag if they can't filter merchants.
-* **Suggestion**: Introduce prominent quick filters for "Halal", "Vegetarian", and "Vegan" on the home page and prominently display these tags on the merchant details page.
+### 4. The Pickup Time Window is easy to miss (Medium Priority)
+**The problem:** The pickup time (like 9:00 PM - 10:00 PM) kind of blends in. If a user buys a bag and misses the window, it's a bad experience for everyone.
+**The fix:** We should make the pickup window bold and maybe even add a checkbox at checkout where the user confirms they saw the time.
 
-### 4. Pickup Time Window Not Prominent Enough (Medium Priority)
-* **Issue**: The required pickup window (e.g., 9:00 PM - 10:00 PM) is sometimes buried in the details. Users might purchase a bag and miss the window.
-* **Suggestion**: Highlight the pickup window in bold, contrasting colors right next to the "Reserve" button. Add an explicit confirmation checkbox during checkout.
+### 5. Highlighting the Discount (Medium Priority)
+**The problem:** The app doesn't emphasize how much money the user is saving! People love a good deal.
+**The fix:** Showing the original price crossed out next to the new discounted price (with a "Save 60%" badge) usually drives up conversion nicely.
 
-### 5. Lack of Price Contrast & Value Communication (Medium Priority)
-* **Issue**: The discount is not emphasized enough. Users love to feel they are getting a steal, which drives impulse purchases.
-* **Suggestion**: Show the original price crossed out (strikethrough) next to the new price, and add a badge highlighting the discount percentage (e.g., "Save 60%").
+### 6. Dead Ends on Empty States (Medium Priority)
+**The problem:** When a store is sold out, it just looks empty. It's a missed opportunity.
+**The fix:** Adding a "Notify me when available" or "Favorite this store" button gives the user an action to take so they come back tomorrow.
 
-### 6. Empty States Lack Calls-to-Action (Medium Priority)
-* **Issue**: When a merchant is sold out, the page might just look empty or show "No bags available," leading to a dead-end experience.
-* **Suggestion**: Implement an "Add to Favorites" or "Notify Me" button so users can be alerted when the merchant drops new bags tomorrow.
+### 7. Checkout Friction (Medium Priority)
+**The problem:** If checkout takes too long, users drop off.
+**The fix:** Since we're targeting Indonesia, deeply integrating quick e-wallets (GoPay, OVO) or one-click checkouts will be crucial.
 
-### 7. Checkout Friction and Lack of Payment Options (Medium Priority)
-* **Issue**: If the checkout process takes too many clicks, the user might abandon the cart.
-* **Suggestion**: Implement a one-click or two-click checkout flow utilizing Apple Pay, Google Pay, or popular local e-wallets (GoPay, OVO).
+### 8. No Social Proof Yet (Low Priority)
+**The problem:** It's hard to trust a new merchant without reviews.
+**The fix:** A simple rating system (like 4.8/5 stars) on the merchant card helps build credibility.
 
-### 8. Absence of Social Proof (Low Priority)
-* **Issue**: Users may hesitate to buy from an unfamiliar merchant.
-* **Suggestion**: Add a simple rating system (e.g., 4.8/5 based on 120 reviews) on the merchant card to build credibility.
+### 9. Forgetting to Pick Up (Low Priority)
+**The problem:** Users might buy a bag at 10 AM and forget to pick it up at 8 PM.
+**The fix:** An "Add to Calendar" button on the success screen, or an automated push notification 30 minutes before the window opens.
 
-### 9. Missing "Add to Calendar" Functionality (Low Priority)
-* **Issue**: Users easily forget their pickup window, leading to uncollected bags (which defeats the purpose of stopping food waste).
-* **Suggestion**: On the order confirmation page, include an "Add to Calendar" button and a toggle to enable push notification reminders 30 minutes before pickup.
-
-### 10. Low Contrast & Small Touch Targets (Low Priority)
-* **Issue**: Secondary text (like terms or addresses) may have low contrast, and some buttons might be too small for easy tapping on mobile.
-* **Suggestion**: Ensure all text meets the WCAG AA contrast ratio of 4.5:1. Increase touch targets (buttons, links) to a minimum of 44x44 pixels.
+### 10. Mobile Touch Targets and Contrast (Low Priority)
+**The problem:** Some of the secondary text is a bit light, and some buttons feel a bit small for thumbs on mobile.
+**The fix:** Bumping up the touch targets to at least 44x44px and darkening the gray text slightly to hit WCAG contrast standards.

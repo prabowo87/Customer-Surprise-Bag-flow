@@ -1,55 +1,28 @@
 # Good Again – System Design
-**Final Challenge - Part 3**
 
-## 1. Customer Registration & Authentication
-**Architecture:**
-*   **Identity Provider:** Firebase Authentication or Supabase Auth.
-*   **Database:** PostgreSQL (via Supabase) or Firestore for user profiles.
+Here is my proposed system architecture for the core backend flows. For an early-stage startup, my main philosophy here is: use managed services to move fast (like Firebase/Supabase), but don't compromise on data integrity where money or inventory is involved.
 
-**Flow:**
-1.  **Sign Up/Sign In:** User registers via Email/Password, Google Sign-In, or Apple Sign-In (crucial for iOS).
-2.  **Token Generation:** The Auth provider generates a JWT (JSON Web Token) upon successful login.
-3.  **Client Storage:** The mobile app stores the JWT securely (e.g., using `EncryptedSharedPreferences` on Android, `Keychain` on iOS).
-4.  **API Requests:** The client attaches the JWT in the `Authorization: Bearer <token>` header for all backend requests.
-5.  **Profile Sync:** A webhook or edge function automatically creates a corresponding user profile in the primary database upon registration.
+### 1. Customer Registration & Authentication
+I'd highly recommend using **Firebase Auth** or **Supabase Auth**. There's no need to build custom auth from scratch at this stage.
+- **Flow:** We let users sign up via Email or Google/Apple Sign-In (Apple is mandatory for the iOS App Store anyway).
+- **Security:** The auth provider gives us a JWT. We store it securely on the device and pass it in the `Authorization` header for all backend API calls.
+- **Data Sync:** Whenever a new user signs up, a webhook triggers and creates a corresponding profile row in our main database.
 
----
+### 2. Payment Flow
+For the Indonesian market, **Midtrans** or **Xendit** are usually the best bets because they support GoPay, OVO, QRIS, and Virtual Accounts out of the box.
+- **Flow:** When a user clicks "Reserve", our backend (Node.js/NestJS) creates a `PENDING` order in the database.
+- We hit the Midtrans API to get a transaction token, pass it to the frontend, and open the payment UI.
+- Once the user pays via GoPay/OVO, Midtrans sends a Webhook to our backend.
+- We verify the Webhook signature, mark the order as `PAID`, and trigger the notification flow.
 
-## 2. Payment Flow
-**Architecture:**
-*   **Payment Gateway:** Midtrans, Xendit, or Stripe (Midtrans/Xendit is highly recommended for the Indonesian market as they support GoPay, OVO, QRIS, and Virtual Accounts).
-*   **Backend:** Node.js/NestJS API.
+### 3. Notifications
+For push notifications, **Firebase Cloud Messaging (FCM)** is the industry standard and free.
+- **Immediate:** As soon as an order is `PAID`, we shoot an FCM push to the user saying "Order Confirmed!"
+- **Scheduled:** To make sure they don't forget their food, we can use a basic task queue (like BullMQ or Google Cloud Tasks) to schedule a push notification 30 minutes before their pickup window starts.
+- We'd also send a real-time socket event or push to the Merchant's app so they know a new order just came in.
 
-**Flow:**
-1.  **Checkout Initiation:** User clicks "Reserve Now". The client calls the backend API `POST /orders`.
-2.  **Order Creation:** The backend creates an order record in the database with status `PENDING`.
-3.  **Token Request:** The backend requests a transaction token/URL from the payment gateway (e.g., Midtrans Snap API) and returns it to the client.
-4.  **Payment UI:** The client opens the payment gateway's WebView or deep links to the e-wallet app.
-5.  **Webhook Fulfillment:** Once paid, the payment gateway sends a webhook to the backend `POST /webhooks/payment`.
-6.  **Status Update:** The backend verifies the webhook signature, updates the order status to `PAID`, and triggers the notification system.
-
----
-
-## 3. Notifications
-**Architecture:**
-*   **Push Notifications:** Firebase Cloud Messaging (FCM).
-*   **Transactional Messages (Fallbacks):** WhatsApp Business API or Email (SendGrid/Resend).
-*   **Cron/Task Scheduler:** Redis/BullMQ or Google Cloud Tasks.
-
-**Flow:**
-1.  **Order Confirmed:** Upon payment, a push notification is sent immediately to the user via FCM: "Order Confirmed! Don't forget your pickup time."
-2.  **Pickup Reminder (Scheduled):** The backend schedules a task (e.g., via Cloud Tasks) to execute 30 minutes before the merchant's pickup window begins.
-3.  **Execution:** The scheduler triggers the notification service, which sends an FCM push: "Time to pick up your Surprise Bag at [Merchant Name]!".
-4.  **Merchant Alert:** A separate push notification or in-app socket event is sent to the Merchant Dashboard alerting them of a new order.
-
----
-
-## 4. Merchant Inventory
-**Architecture:**
-*   **Database:** PostgreSQL (highly recommended for strict ACID compliance to prevent overselling).
-
-**Flow:**
-1.  **Inventory Setup:** Merchants input the number of available surprise bags for the day. A `surprise_bags` table tracks `merchant_id`, `stock_count`, `price`, and `pickup_time`.
-2.  **Concurrency Control (Preventing Overselling):** When an order is placed, the database uses **row-level locking** (e.g., `SELECT ... FOR UPDATE` in PostgreSQL) or an **atomic decrement** query (`UPDATE surprise_bags SET stock_count = stock_count - 1 WHERE id = X AND stock_count > 0`).
-3.  **Rollback:** If a user abandons the payment or it expires after 15 minutes, a cron job or webhook marks the order as `CANCELLED` and atomically increments the `stock_count` back by 1.
-4.  **Real-time Sync (Optional):** Changes to `stock_count` can be broadcasted via WebSockets (e.g., Supabase Realtime) so customers looking at the app see the stock update instantly.
+### 4. Merchant Inventory (The tricky part)
+This is where we need strict consistency. If a merchant has 2 bags left and 3 people try to buy them at the exact same second, we can't oversell. I wouldn't use NoSQL (like Firestore) for this. I'd use **PostgreSQL**.
+- **Flow:** Merchants set their stock for the day in a `surprise_bags` table (which tracks `stock_count`).
+- **Concurrency:** When an order is placed, the database executes an atomic decrement (`UPDATE surprise_bags SET stock_count = stock_count - 1 WHERE id = X AND stock_count > 0`). If `stock_count` is 0, the query fails and we tell the user it's sold out.
+- **Timeouts:** If the user abandons the checkout page, a cron job checks for unpaid orders older than 15 minutes, cancels them, and adds the `stock_count` back.
