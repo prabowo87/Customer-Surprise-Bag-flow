@@ -1,5 +1,7 @@
 # Good Again – Product & UX Review
 
+**🎯 Target MVP:** [https://good-again-app.lovable.app](https://good-again-app.lovable.app)
+
 Hey! After playing around with the MVP and thinking about typical user flows for surplus food apps, I've put together a list of 10 UX and usability areas we could improve. I've ranked them loosely by priority, focusing first on things that might block a user from actually making a purchase.
 
 ### 1. Distance & Location Context is Missing (High Priority)
