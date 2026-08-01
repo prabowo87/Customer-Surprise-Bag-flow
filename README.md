@@ -12,6 +12,15 @@ Thank you for the opportunity to complete this final challenge! Below is a break
 
 ### 1. `src/` (Source Code)
 This contains the React/Vite application for the Customer Surprise Bag flow.
+
+**App Screenshots:**
+<div style="display: flex; gap: 10px; overflow-x: auto;">
+  <img src="./screenshots/home.png" width="220" alt="Home Screen" />
+  <img src="./screenshots/details.png" width="220" alt="Details Screen" />
+  <img src="./screenshots/checkout.png" width="220" alt="Checkout Screen" />
+  <img src="./screenshots/success.png" width="220" alt="Success Screen" />
+</div>
+
 - **Tech Stack:** React, Vite, standard CSS.
 - **Why I designed it this way:** I focused on a modern, clean, and vibrant UI to make the food discovery exciting. I used standard CSS (Vanilla) instead of a heavy framework to demonstrate a solid understanding of fundamental styling, responsive design, and animations. The flow is deliberately kept simple (Listing -> Details -> Checkout) to mimic a smooth, real-world user journey that reduces friction.
 
